@@ -1,5 +1,5 @@
 #!/bin/bash
-#rob.sh v0.1 By TAPE
+#robu.sh v0.1 By TAPE
 #Last edit 26-04-2016 20:00
 #
 #						TEH COLORZ :D
