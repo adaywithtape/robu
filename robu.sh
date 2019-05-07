@@ -1,6 +1,6 @@
 #!/bin/bash
 #robu.sh v0.1 By TAPE
-#Last edit 26-04-2016 20:00
+#Last edit 01-05-2019 20:00
 #
 #						TEH COLORZ :D
 ########################################################################
@@ -41,6 +41,7 @@ if [ "$EXIST" == "" ] ; then
 	echo $REDN"[-]$STD robots.txt not found"
 	exit
 else echo $GRNN"[+]$STD $INPUT/robots.txt $GRNN$EXIST$STD"
+curl -s "$INPUT"/robots.txt | egrep -i 'allow|disallow'
 echo
 fi
 }
@@ -75,7 +76,7 @@ for i in $(curl -s "$INPUT"/robots.txt | egrep 'Disallow:|Allow:' | sed -e 's/Di
 		FULLRESULT=$(curl -sI "$INPUT""$i")
 		RESULT=$(curl -sI "$INPUT""$i" | head -n1)
 			if [[ "$RESULT" =~ "200 OK" ]] ; then
-				echo $GRNN"[+]$STD $INPUT$REDN$i$STD"
+				echo $GRNN"[+]$STD $INPUT$GRNN$i$STD"
 				echo $STD"$FULLRESULT"
 			else echo $REDN"[-]$STD $INPUT$i"
 				echo $STD"$FULLRESULT"
@@ -83,7 +84,7 @@ for i in $(curl -s "$INPUT"/robots.txt | egrep 'Disallow:|Allow:' | sed -e 's/Di
 	elif [ "$VERBOSE" == "0" ] ; then
 		RESULT=$(curl -sI "$INPUT""$i" | head -n1)
 		if [[ "$RESULT" =~ "200 OK" ]] ; then
-			echo $GRNN"[+]$STD $INPUT$i"
+			echo $GRNN"[+]$STD $INPUT$GRNN$i$STD"
 		else echo $REDN"[-]$STD $i"
 		fi
 	fi
@@ -124,8 +125,8 @@ if [[ "$ALL" == "1" && "$WRITE" == "0" ]] ; then
 	f_all
 elif [[ "$ALL" == "1" && "$WRITE" == "1" ]] ; then
 	for i in $(curl -s "$INPUT"/robots.txt | egrep 'Disallow:|Allow:' | sed -e 's/Disallow: //g' -e 's/Allow: //g') ; do
-	RESULT=$(curl -sI "$INPUT""$i" | head -n1)
-		echo "$INPUT$i"
+	RESULT=$(curl -sI "$INPUT""$i" | head -n 1)
+		echo "$INPUT""$i"
 	done
 elif [[ "$ALL" == "0" && "$WRITE" == "0" ]] ; then  
 	f_robcheck
